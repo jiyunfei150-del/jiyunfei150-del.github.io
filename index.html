@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>jiyunfei150 页面索引</title>
+<meta name="description" content="jiyunfei150-del 在 GitHub Pages 上发布的全部页面，按分类浏览，可全文搜索、收藏、备注，自动收录新页面。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@600;700;900&display=swap">
+<style>
+/* Layout: 一只卡片目录柜——顶部固定检索栏；收藏置顶，其余按「工作 / 生活」分大块、块里按分类；每张索引卡上半是页面首屏截图，下半是著录和操作 */
+:root {
+  --bg: #F2F4F7;
+  --surface: #FFFFFF;
+  --ink: #1A1E27;
+  --muted: #5B6372;
+  --line: #DADFE7;
+  --accent: #2B4BB0;
+  --mark: #FFE38A;
+  --mark-ink: #1A1E27;
+  --new: #C2410C;
+  --star: #B97F00;
+  --danger: #B42318;
+  --c-brain: #2F55C9;
+  --c-bi: #0B7C8A;
+  --c-fin: #16835A;
+  --c-claw: #A96B0C;
+  --c-life: #BE3864;
+  --c-misc: #5B6372;
+  --f-display: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --f-body: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151B; --surface: #1A1E27; --ink: #E5E8EE; --muted: #9AA2B2; --line: #2C323E;
+    --accent: #8FA8FF; --mark: #6B5813; --mark-ink: #FFF5D1; --new: #FB923C; --star: #F5C542; --danger: #F87171;
+    --c-brain: #88A3FF; --c-bi: #5CCFDC; --c-fin: #5BC996; --c-claw: #E2AA4E; --c-life: #EF89AC; --c-misc: #9AA2B2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151B; --surface: #1A1E27; --ink: #E5E8EE; --muted: #9AA2B2; --line: #2C323E;
+  --accent: #8FA8FF; --mark: #6B5813; --mark-ink: #FFF5D1; --new: #FB923C; --star: #F5C542; --danger: #F87171;
+  --c-brain: #88A3FF; --c-bi: #5CCFDC; --c-fin: #5BC996; --c-claw: #E2AA4E; --c-life: #EF89AC; --c-misc: #9AA2B2;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+img { max-width: 100%; }
+button { font: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1200px; margin-inline: auto; padding-inline: 20px; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+.snapshot { background: var(--ink); color: var(--bg); font-size: 13px; }
+.snapshot .wrap { padding-block: 10px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.snapshot a { color: inherit; font-weight: 600; text-underline-offset: 3px; }
+
+.masthead { padding-block: 40px 22px; display: grid; gap: 10px; }
+.eyebrow { margin: 0; font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+.masthead h1 { margin: 0; font-family: var(--f-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 42px); line-height: 1.15; letter-spacing: .02em; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 68ch; }
+.lede b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.sync { margin: 0; display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.sync .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--c-fin); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-fin) 22%, transparent); }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 90%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.bar-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-block: 12px; }
+.search { position: relative; flex: 1 1 320px; min-width: 0; }
+.search svg { position: absolute; left: 12px; top: 50%; translate: 0 -50%; width: 16px; height: 16px; stroke: var(--muted); fill: none; stroke-width: 2; pointer-events: none; }
+.search input { width: 100%; height: 42px; padding: 0 52px 0 36px; font: inherit; font-size: 15px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.search input::-webkit-search-cancel-button { display: none; }
+.search kbd { position: absolute; right: 10px; top: 50%; translate: 0 -50%; font-family: var(--f-mono); font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; background: var(--bg); }
+.search .clear { position: absolute; right: 6px; top: 50%; translate: 0 -50%; border: 0; background: transparent; color: var(--muted); font-size: 13px; padding: 6px 8px; cursor: pointer; border-radius: 6px; }
+.search .clear:hover { color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.chip:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip .n { font-family: var(--f-mono); font-size: 11.5px; opacity: .7; font-variant-numeric: tabular-nums; }
+.chip[disabled] { opacity: .45; cursor: default; }
+.chip svg { width: 13px; height: 13px; fill: var(--star); stroke: var(--star); stroke-width: 1.5; stroke-linejoin: round; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cc, var(--muted)); flex: none; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-left: auto; }
+.sort { font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font-size: 13px; color: var(--muted); background: transparent; border: 0; padding: 5px 12px; cursor: pointer; white-space: nowrap; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); font-weight: 600; }
+.seg .n { font-family: var(--f-mono); font-size: 11px; opacity: .7; margin-left: 4px; }
+.tbtn { font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.tbtn:hover { border-color: var(--muted); }
+
+main { padding-block: 6px 24px; min-height: 40vh; }
+.status { margin: 14px 0 0; color: var(--muted); font-size: 13px; }
+.recent { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 18px; font-size: 13px; }
+.recent .lbl { color: var(--muted); margin-right: 2px; }
+.recent a { text-decoration: none; padding: 2px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.recent a:hover { border-color: var(--muted); }
+/* 两级标题：大块（收藏 / 工作 / 生活）用粗衬线压一道墨线，块内分类用色点 */
+.tier { margin-top: 30px; }
+.tier + .tier { margin-top: 60px; }
+.tier-h { display: flex; align-items: baseline; gap: 12px; margin: 0; padding-bottom: 10px; border-bottom: 2px solid var(--ink); font-family: var(--f-display); font-weight: 900; font-size: 28px; line-height: 1.2; letter-spacing: .12em; }
+.tier-h .n { font-family: var(--f-mono); font-weight: 400; font-size: 12.5px; letter-spacing: 0; color: var(--muted); }
+.fav-tier .tier-h { border-bottom-color: var(--star); }
+.fav-tier .grid, .fav-tier .rows { margin-top: 16px; }
+.group { margin-top: 24px; }
+.group-h { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-weight: 600; font-size: 15px; color: var(--ink); }
+.group-h .dot { width: 9px; height: 9px; }
+.group-h .n { font-family: var(--f-mono); font-weight: 400; font-size: 12px; color: var(--muted); }
+.group-h::after { content: ""; flex: 1; height: 1px; background: var(--line); margin-left: 6px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 14px; align-items: start; }
+
+.card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; transition: border-color .15s; }
+.card:hover { border-color: color-mix(in srgb, var(--cc) 55%, var(--line)); }
+.frame { border-bottom: 1px solid var(--line); }
+.addr { display: flex; align-items: center; gap: 8px; padding: 6px 10px; min-width: 0; background: color-mix(in srgb, var(--ink) 5%, var(--surface)); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--muted); font-size: 11.5px; }
+.addr:hover { color: var(--ink); }
+.addr:hover .url { text-decoration: underline; text-underline-offset: 2px; }
+.lights { display: inline-flex; gap: 4px; flex: none; }
+.lights i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.addr .url { flex: 1; min-width: 0; padding: 1px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.addr .go { flex: none; color: var(--cc); }
+.shot { display: block; position: relative; aspect-ratio: 16 / 10; max-width: 100%; background: color-mix(in srgb, var(--cc) 10%, var(--surface)); overflow: hidden; }
+.shot img { position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: scale .3s; }
+.card:hover .shot img { scale: 1.025; }
+.shot .ph { position: absolute; inset: 0; display: grid; place-items: center; padding: 18px; text-align: center; font-family: var(--f-display); font-weight: 900; font-size: 26px; line-height: 1.25; color: color-mix(in srgb, var(--cc) 70%, var(--ink)); opacity: .85; text-wrap: balance; overflow-wrap: anywhere; }
+.shot .ph small { display: block; margin-top: 8px; font-family: var(--f-mono); font-weight: 400; font-size: 11px; letter-spacing: .04em; color: var(--muted); }
+.body { padding: 12px 16px 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.meta-l, .meta-r { display: inline-flex; align-items: center; gap: 8px; }
+.cat { display: inline-flex; align-items: center; gap: 6px; color: var(--cc); font-weight: 500; }
+.src { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; line-height: 1.5; }
+.new { font-size: 11px; font-weight: 600; color: var(--new); border: 1px solid color-mix(in srgb, var(--new) 45%, transparent); border-radius: 4px; padding: 0 5px; line-height: 1.5; }
+.card h4 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 17px; line-height: 1.4; text-wrap: balance; overflow-wrap: anywhere; }
+.card h4 a { text-decoration: none; }
+.card h4 a:hover { text-decoration: underline; text-decoration-color: var(--cc); text-underline-offset: 3px; }
+.desc { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.hit { margin: 2px 0 0; font-size: 13px; color: var(--muted); background: var(--bg); border-radius: 6px; padding: 6px 9px; overflow-wrap: anywhere; }
+.hit::before { content: "正文："; color: var(--ink); }
+.note-view { margin: 2px 0 0; font-size: 13px; padding: 6px 9px; border-radius: 6px; background: color-mix(in srgb, var(--star) 12%, var(--surface)); overflow-wrap: anywhere; white-space: pre-wrap; }
+.note-view b { font-weight: 600; margin-right: 6px; color: var(--star); }
+.note-edit { display: grid; gap: 6px; margin-top: 2px; }
+.note-edit textarea { width: 100%; min-height: 64px; resize: vertical; font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; }
+.note-edit textarea:focus { outline: none; border-color: var(--accent); }
+.ne-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.ne-acts button { font-size: 12px; border-radius: 6px; padding: 3px 10px; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.ne-acts button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+mark { background: var(--mark); color: var(--mark-ink); border-radius: 2px; padding: 0 1px; }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 10px; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.foot-l { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+.repo { color: var(--muted); text-decoration: none; overflow-wrap: anywhere; }
+.repo:hover { color: var(--ink); text-decoration: underline; }
+.acts { display: inline-flex; align-items: center; gap: 2px; margin-right: -6px; }
+.ib { width: 30px; height: 30px; display: inline-grid; place-items: center; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; }
+.ib svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.ib:hover { background: color-mix(in srgb, var(--ink) 7%, transparent); color: var(--ink); }
+.ib.on { color: var(--star); }
+.ib.on svg { fill: currentColor; }
+.ib.has-note { color: var(--star); }
+.ib.danger:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+.vers-btn { font-size: 12px; color: var(--muted); background: transparent; border: 1px dashed var(--line); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.vers-btn:hover, .vers-btn[aria-expanded="true"] { color: var(--ink); border-color: var(--muted); }
+.vers { list-style: none; margin: 4px 0 0; padding: 8px 0 0; border-top: 1px dashed var(--line); display: grid; gap: 4px; font-size: 13px; }
+.vers li { display: flex; gap: 10px; align-items: baseline; min-width: 0; }
+.vers time { flex: none; font-size: 12px; color: var(--muted); }
+.vers a { color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+.vers a:hover { text-decoration: underline; }
+.vers .r { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); margin-left: 4px; }
+.flash { animation: flash 2.6s ease-out; }
+@keyframes flash { 0%, 55% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* 列表视图：一行一页，适合快速扫读 */
+.rows { display: grid; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.row { display: grid; grid-template-columns: minmax(44px, auto) minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline; padding: 10px 16px; border-top: 1px solid var(--line); min-width: 0; }
+.row:first-child { border-top: 0; }
+.row:hover { background: color-mix(in srgb, var(--cc) 6%, var(--surface)); }
+.row time { font-size: 12.5px; color: var(--muted); }
+.row .main { min-width: 0; display: grid; gap: 2px; }
+.row .ttl { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0; }
+.row .ttl a { font-family: var(--f-display); font-weight: 700; font-size: 15.5px; text-decoration: none; overflow-wrap: anywhere; }
+.row .ttl a:hover { text-decoration: underline; text-decoration-color: var(--cc); text-underline-offset: 3px; }
+.row .desc { font-size: 13px; }
+.row-url { justify-self: start; max-width: 100%; font-size: 11.5px; color: var(--muted); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-url::after { content: " ↗"; color: var(--cc); }
+.row-url:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+.row .side { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; align-self: center; }
+.row .vers { grid-column: 2 / -1; }
+
+.empty { margin-top: 30px; padding: 28px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; }
+.empty b { color: var(--ink); }
+
+footer { padding-block: 10px 56px; color: var(--muted); font-size: 13px; display: grid; gap: 14px; }
+body.has-pending footer { padding-bottom: 110px; }
+footer .how { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); max-width: 75ch; }
+footer .how a { color: var(--ink); }
+footer details summary { cursor: pointer; color: var(--ink); }
+footer .why { margin: 12px 0 4px; }
+footer .why b { color: var(--ink); font-weight: 600; }
+footer .omit { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; }
+.mine-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+.mine-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.mine-list a { color: var(--ink); }
+.mine-list button { font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 1px 9px; cursor: pointer; }
+
+.pending { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--ink); color: var(--bg); padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
+.pending .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 13px; }
+.pending .msg { flex: 1 1 280px; min-width: 0; }
+.pending a, .pending button { font-size: 13px; border-radius: 6px; padding: 5px 12px; cursor: pointer; text-decoration: none; }
+.pending .go { background: var(--bg); color: var(--ink); font-weight: 600; border: 0; }
+.pending .ghost { background: transparent; color: var(--bg); border: 1px solid color-mix(in srgb, var(--bg) 40%, transparent); }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); translate: -50% 0; z-index: 11; max-width: calc(100% - 32px); display: flex; align-items: center; gap: 14px; padding: 9px 14px; border-radius: 8px; background: var(--ink); color: var(--bg); font-size: 13px; box-shadow: 0 6px 24px rgba(0, 0, 0, .2); overflow-wrap: anywhere; }
+body.has-pending .toast { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+.toast button { border: 0; background: transparent; color: var(--mark); font-weight: 600; cursor: pointer; padding: 0; flex: none; }
+
+@media (max-width: 640px) {
+  .wrap { padding-inline: 16px; }
+  .masthead { padding-block: 28px 16px; }
+  .search kbd { display: none; }
+  .tools { margin-left: 0; }
+  .row { grid-template-columns: minmax(40px, auto) minmax(0, 1fr); }
+  .tier-h { font-size: 24px; }
+  .row .side { grid-column: 2; }
+}
+/* 上锁：没解开前整页只剩一张输入密码的卡片 */
+body.locked > :not(.lock):not(script) { display: none !important; }
+.lock { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; }
+.lock-card { width: min(380px, 100%); display: grid; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px 24px 22px; }
+.lock-card h2 { margin: 0; font-family: var(--f-display); font-weight: 900; font-size: 24px; letter-spacing: .04em; }
+.lock-sub { margin: 0; color: var(--muted); font-size: 13px; }
+.lock-field { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+.lock-field input { height: 42px; padding: 0 12px; font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+.lock-field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.lock-remember { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.lock-err { margin: 0; min-height: 1.2em; font-size: 13px; color: var(--danger); }
+.lock-card button { height: 40px; border: 0; border-radius: 8px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 600; cursor: pointer; }
+.lock-card button:disabled { opacity: .6; cursor: progress; }
+.relock { justify-self: start; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+.pending input { font-size: 13px; height: 30px; padding: 0 10px; border-radius: 6px; border: 0; width: 160px; max-width: 100%; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } .card:hover .shot img { scale: 1; } }
+</style>
+</head>
+<body>
+<div class="lock" id="lock" hidden>
+  <form class="lock-card" id="lock-form">
+    <p class="eyebrow mono">jiyunfei150-del.github.io</p>
+    <h2>页面索引已上锁</h2>
+    <p class="lock-sub">输入密码查看全部页面。单个页面的链接不受影响，照常能打开。</p>
+    <label class="lock-field" for="pw"><span>密码</span><input id="pw" type="password" autocomplete="current-password" required></label>
+    <label class="lock-remember" for="remember"><input id="remember" type="checkbox" checked>在这台电脑上记住</label>
+    <p class="lock-err" id="lock-err" aria-live="polite"></p>
+    <button type="submit" id="unlock">打开</button>
+  </form>
+</div>
+<div class="snapshot" id="snapshot" hidden></div>
+
+<header class="wrap masthead">
+  <p class="eyebrow mono" id="eyebrow">jiyunfei150-del.github.io</p>
+  <h1>jiyunfei150 页面索引</h1>
+  <p class="lede" id="lede">正在读取索引…</p>
+  <p class="sync" id="sync" hidden><span class="pulse" aria-hidden="true"></span><span id="sync-t"></span></p>
+</header>
+
+<div class="bar">
+  <div class="wrap bar-inner">
+    <label class="search" for="q">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input id="q" type="search" placeholder="搜标题、正文、备注、网址，空格分隔多个词" autocomplete="off" aria-label="搜索页面">
+      <kbd id="kbd">/</kbd>
+      <button class="clear" id="clear" type="button" hidden>清空</button>
+    </label>
+    <div class="chips" id="cats" role="group" aria-label="按分类筛选"></div>
+    <div class="tools">
+      <div class="seg" id="srcseg" role="group" aria-label="按来源筛选" hidden></div>
+      <select class="sort" id="sort" aria-label="排序">
+        <option value="new">最新在前</option>
+        <option value="old">最早在前</option>
+      </select>
+      <div class="seg" id="viewseg" role="group" aria-label="显示方式">
+        <button type="button" id="v-card" data-view="card" aria-pressed="true">图卡</button>
+        <button type="button" id="v-list" data-view="list" aria-pressed="false">列表</button>
+      </div>
+      <button class="tbtn" type="button" data-act="random" title="从当前列表里随便挑一页，帮你回顾">随机一页</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="status" id="status" aria-live="polite"></p>
+  <div id="list"></div>
+</main>
+
+<footer class="wrap">
+  <p class="how" id="how"></p>
+  <details id="mine" hidden></details>
+  <details id="omitted"></details>
+  <button class="relock" type="button" data-act="relock" id="relock" hidden>锁上：这台电脑不再记住密码</button>
+</footer>
+
+<div class="pending" id="pending" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 存不了就只在这次打开里有效 */ } },
+  };
+  // 提交时间是 UTC，一律按北京时间显示
+  const bj = (iso) => { const t = new Date(new Date(iso).getTime() + 8 * 3600e3); return t.toISOString().slice(0, 16).replace('T', ' '); };
+  const ICON = {
+    star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.55 5.2 5.75.84-4.15 4.05.98 5.71L12 16.7l-5.13 2.7.98-5.71L3.7 9.64l5.75-.84z"/></svg>',
+    note: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  };
+  const PRIVATE = !!window.__PRIVATE__;
+
+  // ---------- 加密：索引数据在仓库里是 AES-GCM 密文，密钥由密码经 PBKDF2 派生，只在浏览器里解 ----------
+  let KEY = null;
+  const te = new TextEncoder(), td = new TextDecoder();
+  const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const b64 = (u8) => { let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(s); };
+  const KEYSTORE = 'idx.key.v1';
+  async function deriveKey(password, salt, iter) {
+    const base = await crypto.subtle.importKey('raw', te.encode(password), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: unb64(salt), iterations: iter, hash: 'SHA-256' }, base,
+      { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+  }
+  async function openBox(box, key) {
+    return JSON.parse(td.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(box.iv) }, key, unb64(box.ct))));
+  }
+  async function sealBox(obj) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, KEY, te.encode(JSON.stringify(obj))));
+    return { iv: b64(iv), ct: b64(ct) };
+  }
+  // 「记住这台电脑」存的是派生好的密钥（不是密码本身），盐变了（改过密码）就作废
+  async function rememberedKey(salt) {
+    try {
+      const v = JSON.parse(store.get(KEYSTORE) || 'null');
+      if (v && v.salt === salt) return await crypto.subtle.importKey('raw', unb64(v.k), { name: 'AES-GCM' }, true, ['encrypt', 'decrypt']);
+    } catch (e) { /* 没存过或存坏了，就当没记住 */ }
+    return null;
+  }
+  async function rememberKey(salt, key) {
+    store.set(KEYSTORE, JSON.stringify({ salt, k: b64(new Uint8Array(await crypto.subtle.exportKey('raw', key))) }));
+  }
+
+  let D, CAT_KEYS, BYK = {};
+  const state = {
+    q: '', cat: store.get('idx.cat') || 'all', src: 'all',
+    sort: store.get('idx.sort') === 'old' ? 'old' : 'new', view: store.get('idx.view') === 'list' ? 'list' : 'card',
+  };
+
+  // ---------- 本地标记：点了立刻生效，记在这个浏览器里；「同步到索引」后写进仓库 ----------
+  const LKEY = 'idx.local.v1';
+  const blank = () => ({ fav: {}, hide: {}, note: {}, seen: {}, recent: [] });
+  let local = (() => {
+    try {
+      const v = JSON.parse(store.get(LKEY) || '{}');
+      return { fav: v.fav || {}, hide: v.hide || {}, note: v.note || {}, seen: v.seen || {}, recent: Array.isArray(v.recent) ? v.recent : [] };
+    } catch (e) { return blank(); }
+  })();
+  const saveLocal = () => store.set(LKEY, JSON.stringify(local));
+  const SERVER = { fav: (it) => !!it.fav, hide: (it) => !!it.hid, note: (it) => it.note || '' };
+  const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+  const eff = (kind, it) => (has(local[kind], it.k) ? local[kind][it.k] : SERVER[kind](it));
+  const isFav = (it) => !!eff('fav', it);
+  const isHid = (it) => !!eff('hide', it);
+  const noteOf = (it) => eff('note', it) || '';
+
+  function setMark(kind, it, v) {
+    local[kind][it.k] = v;
+    if (v === SERVER[kind](it)) delete local[kind][it.k];
+    saveLocal();
+  }
+  // 仓库里已经是这个值了（同步生效了），本地那条就不用再留
+  function prune() {
+    ['fav', 'hide', 'note'].forEach((kind) => Object.keys(local[kind]).forEach((k) => {
+      const it = BYK[k];
+      if (it && local[kind][k] === SERVER[kind](it)) delete local[kind][k];
+    }));
+    saveLocal();
+  }
+  function pendingOps() {
+    const ops = [];
+    ['fav', 'hide', 'note'].forEach((kind) => Object.keys(local[kind]).forEach((k) => {
+      if (BYK[k]) ops.push({ op: kind, k, v: local[kind][k], t: BYK[k].t });
+    }));
+    return ops;
+  }
+  function markSeen(it) {
+    if (!it) return;
+    local.seen[it.k] = Date.now();
+    local.recent = [it.k].concat(local.recent.filter((k) => k !== it.k)).slice(0, 10);
+    saveLocal();
+    setTimeout(render, 300);
+  }
+
+  function prepare(data) {
+    D = data;
+    CAT_KEYS = Object.keys(D.cats);
+    if (!['all', 'fav'].includes(state.cat) && !D.cats[state.cat]) state.cat = 'all';
+    const now = Date.now(), win = (D.new_days || 7) * 864e5;
+    D.items.forEach((it) => {
+      BYK[it.k] = it;
+      it.bd = bj(it.d);
+      it.isNew = it.fs && now - new Date(it.fs).getTime() < win;
+      it._t = it.t.toLowerCase();
+      it._m = (it.desc + ' ' + it.r + ' ' + it.p + ' ' + it.u + ' ' + (D.cats[it.c] || '') + ' ' + it.v.map((v) => v.t + ' ' + v.r).join(' ')).toLowerCase();
+      it._x = (it.x || '').toLowerCase();
+    });
+    prune();
+    if (PRIVATE || window.__SNAPSHOT__) {
+      $('snapshot').hidden = false;
+      $('snapshot').innerHTML = '<div class="wrap"><span>' + (PRIVATE ? '完整版，只有你能看：GitHub 上的页面加 claude.ai 上的私有页面。' : '') +
+        '生成于 ' + esc(D.updated_at) + '，不会自动更新。</span><span>GitHub 部分的实时版：<a href="https://' + esc(D.owner) + '.github.io/" target="_blank" rel="noopener">' +
+        esc(D.owner) + '.github.io</a></span></div>';
+    } else {
+      $('sync').hidden = false;
+      $('sync-t').textContent = '每 30 分钟自动扫描一次 GitHub · 索引内容更新于 ' + D.updated_at;
+    }
+    const repo = 'https://github.com/' + esc(D.owner) + '/' + esc(D.owner) + '.github.io';
+    $('how').innerHTML = (PRIVATE ? 'GitHub 上的页面每 30 分钟自动收录进公开站；claude.ai 上的页面只能由 Claude 读取，要更新这份完整版就跟 Claude 说一声。' :
+      '这一页由 GitHub Actions 自动生成：每 30 分钟扫描 <span class="mono">' + esc(D.owner) + '</span> 名下的仓库，新发布的 HTML 会自动出现在这里，截图随后补上。') +
+      '同一页面改了多版只显示最新一版。收藏、删除、备注先记在这个浏览器里，点底部的「同步到索引」会打开一个预填好的 GitHub issue，提交后约一分钟写进仓库，换台电脑也在。' +
+      '索引数据在仓库里是加密的，分类和描述要改跟 Claude 说。';
+    const s = D.stats;
+    $('omitted').innerHTML = '<summary>没有收录的 ' + s.hidden + ' 个页面</summary>' +
+      D.omitted.map((g) => '<p class="why"><b>' + esc(g.why) + '</b> · ' + g.list.length + ' 个</p><div class="omit mono">' +
+        g.list.map((k) => '<span>' + esc(k.replace(/\/index\.html$/, '')) + '</span>').join('') + '</div>').join('');
+    const srcs = new Set(D.items.map((it) => it.src || 'github'));
+    if (srcs.size > 1) $('srcseg').hidden = false;
+  }
+
+  function renderLede(visible) {
+    const s = D.stats, mine = D.items.filter(isHid).length;
+    const gh = visible.filter((it) => (it.src || 'github') === 'github').length;
+    $('lede').innerHTML = (PRIVATE
+      ? '收录 <b>' + visible.length + '</b> 个页面：GitHub 上 <b>' + gh + '</b> 个，claude.ai 上 <b>' + (visible.length - gh) + '</b> 个（只有你能打开）。'
+      : '收录 <b>' + visible.length + '</b> 个页面，来自 GitHub 上发布的 <b>' + s.total + '</b> 个 HTML。') +
+      '同一页面的 <b>' + s.folded + '</b> 个旧版本和副本收进了卡片里，空壳、模板、示例 <b>' + s.hidden + '</b> 个没有收录' +
+      (mine ? '，你删掉了 <b>' + mine + '</b> 个。' : '。');
+  }
+
+  const terms = () => state.q.toLowerCase().split(/\s+/).filter(Boolean);
+
+  function score(it, ts) {
+    let sc = 0;
+    const note = noteOf(it).toLowerCase();
+    for (const t of ts) {
+      if (it._t.includes(t)) sc += 10;
+      else if (it._m.includes(t) || note.includes(t)) sc += 4;
+      else if (it._x.includes(t)) sc += 1;
+      else return -1;
+    }
+    return sc;
+  }
+
+  function hl(text, ts) {
+    if (!ts.length) return esc(text);
+    const low = text.toLowerCase(), marks = [];
+    for (const t of ts) {
+      let i = low.indexOf(t);
+      while (i !== -1) { marks.push([i, i + t.length]); i = low.indexOf(t, i + t.length); }
+    }
+    if (!marks.length) return esc(text);
+    marks.sort((a, b) => a[0] - b[0]);
+    let out = '', pos = 0;
+    for (const [a, b] of marks) {
+      if (b <= pos) continue;
+      const st = Math.max(a, pos);
+      out += esc(text.slice(pos, st)) + '<mark>' + esc(text.slice(st, b)) + '</mark>';
+      pos = b;
+    }
+    return out + esc(text.slice(pos));
+  }
+
+  function snippet(it, ts) {
+    const head = it._t + ' ' + it.desc.toLowerCase() + ' ' + noteOf(it).toLowerCase();
+    const t = ts.find((x) => !head.includes(x) && it._x.includes(x));
+    if (!t) return '';
+    const i = it._x.indexOf(t);
+    const a = Math.max(0, i - 28), b = Math.min(it.x.length, i + t.length + 56);
+    return '<p class="hit">' + (a > 0 ? '…' : '') + hl(it.x.slice(a, b), ts) + (b < it.x.length ? '…' : '') + '</p>';
+  }
+
+  const link = (u, inner, cls, k) => '<a' + (cls ? ' class="' + cls + '"' : '') + ' href="' + esc(u) + '" target="_blank" rel="noopener"' +
+    (k ? ' data-open data-k="' + esc(k) + '"' : '') + '>' + inner + '</a>';
+  const addr = (u) => u.replace(/^https?:\/\//, '');
+  const day = (bd) => (bd.slice(0, 4) === String(new Date().getFullYear()) ? bd.slice(5, 10) : bd.slice(0, 10));
+
+  function versions(it, ts) {
+    if (!it.v.length) return ['', ''];
+    return ['<button class="vers-btn" type="button" aria-expanded="false">' + it.v.length + ' 个旧版本</button>',
+      '<ul class="vers" hidden>' + it.v.map((v) => '<li><time class="mono">' + bj(v.d).slice(0, 10) + '</time>' +
+        link(v.u, hl(v.t, ts) + '<span class="r">' + esc(v.r) + '</span>') + '</li>').join('') + '</ul>'];
+  }
+
+  function acts(it) {
+    const fav = isFav(it), note = noteOf(it);
+    return '<span class="acts">' +
+      '<button class="ib' + (fav ? ' on' : '') + '" type="button" data-act="fav" data-k="' + esc(it.k) + '" aria-pressed="' + fav + '" title="' + (fav ? '取消收藏' : '收藏，置顶显示') + '" aria-label="' + (fav ? '取消收藏' : '收藏') + '">' + ICON.star + '</button>' +
+      '<button class="ib' + (note ? ' has-note' : '') + '" type="button" data-act="note" data-k="' + esc(it.k) + '" title="写备注" aria-label="写备注">' + ICON.note + '</button>' +
+      '<button class="ib" type="button" data-act="copy" data-k="' + esc(it.k) + '" title="复制链接" aria-label="复制链接">' + ICON.copy + '</button>' +
+      '<button class="ib danger" type="button" data-act="hide" data-k="' + esc(it.k) + '" title="从索引里删掉（不会删页面本身）" aria-label="从索引删除">' + ICON.trash + '</button>' +
+      '</span>';
+  }
+
+  const noteView = (it, ts) => (noteOf(it) ? '<p class="note-view"><b>备注</b>' + hl(noteOf(it), ts) + '</p>' : '');
+  const newBadge = (it) => (it.isNew && !local.seen[it.k] ? '<span class="new">新</span>' : '');
+  const srcBadge = (it) => (it.src === 'claude' ? '<span class="src">claude.ai</span>' : '');
+  const catBadge = (it) => '<span class="cat"><span class="dot"></span>' + esc(D.cats[it.c] || '其他') + '</span>';
+
+  // 预览框做成一个小浏览器窗口：顶上是这页的网址，点网址或画面都直接打开
+  function shot(it, ts) {
+    const img = it.img
+      ? '<img src="' + esc(it.img) + '" alt="' + esc(it.t) + ' 的首屏截图" loading="lazy" width="640" height="400" onerror="this.remove()">'
+      : '';
+    const sub = it.ph || (PRIVATE || window.__SNAPSHOT__ ? '' : '截图稍后生成');
+    const ph = '<span class="ph">' + esc(it.t.length > 18 ? it.t.slice(0, 18) + '…' : it.t) + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>';
+    return '<div class="frame">' +
+      '<a class="addr" href="' + esc(it.u) + '" target="_blank" rel="noopener" title="' + esc(it.u) + '" data-open data-k="' + esc(it.k) + '">' +
+      '<span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="url mono">' + hl(addr(it.u), ts) + '</span>' +
+      '<span class="go" aria-hidden="true">↗</span></a>' +
+      '<a class="shot" href="' + esc(it.u) + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-open data-k="' + esc(it.k) + '">' + ph + img + '</a></div>';
+  }
+
+  function card(it, ts, mixed) {
+    const [vbtn, vlist] = versions(it, ts);
+    return '<article class="card" data-k="' + esc(it.k) + '" style="--cc:var(--c-' + it.c + ')">' + shot(it, ts) +
+      '<div class="body"><div class="meta"><span class="meta-l">' + (mixed ? catBadge(it) : '') +
+      '<time class="mono" datetime="' + it.bd.slice(0, 10) + '">' + it.bd.slice(0, 10) + '</time></span>' +
+      '<span class="meta-r">' + srcBadge(it) + newBadge(it) + '</span></div>' +
+      '<h4>' + link(it.u, hl(it.t, ts), '', it.k) + '</h4>' +
+      (it.desc ? '<p class="desc">' + hl(it.desc, ts) + '</p>' : '') + noteView(it, ts) + snippet(it, ts) +
+      '<div class="foot"><span class="foot-l">' + link(it.g, hl(it.r + (/^index\.html?$/.test(it.p) || !it.p ? '' : '/' + it.p), ts), 'repo mono') + vbtn + '</span>' +
+      acts(it) + '</div>' + vlist + '</div></article>';
+  }
+
+  function row(it, ts, mixed) {
+    const [vbtn, vlist] = versions(it, ts);
+    return '<div class="row" data-k="' + esc(it.k) + '" style="--cc:var(--c-' + it.c + ')"><time class="mono" datetime="' + it.bd.slice(0, 10) + '">' + day(it.bd) + '</time>' +
+      '<div class="main"><div class="ttl">' + link(it.u, hl(it.t, ts), '', it.k) + (mixed ? catBadge(it) : '') + srcBadge(it) + newBadge(it) + '</div>' +
+      (it.desc ? '<p class="desc">' + hl(it.desc, ts) + '</p>' : '') + noteView(it, ts) + snippet(it, ts) +
+      link(it.u, hl(addr(it.u), ts), 'row-url mono', it.k) + '</div>' +
+      '<div class="side">' + vbtn + acts(it) + '</div>' + vlist + '</div>';
+  }
+
+  function block(items, ts, mixed) {
+    return state.view === 'list'
+      ? '<div class="rows">' + items.map((it) => row(it, ts, mixed)).join('') + '</div>'
+      : '<div class="grid">' + items.map((it) => card(it, ts, mixed)).join('') + '</div>';
+  }
+
+  // 按 catalog 的 groups 分大块（工作在最上面），块里再按分类分组
+  function sections(items, ts) {
+    const byCat = {};
+    items.forEach((it) => { (byCat[it.c] = byCat[it.c] || []).push(it); });
+    const groups = D.groups && D.groups.length ? D.groups : [{ name: '全部', cats: CAT_KEYS }];
+    return groups.map((g) => {
+      const cs = g.cats.filter((c) => byCat[c]);
+      if (!cs.length) return '';
+      const n = cs.reduce((s, c) => s + byCat[c].length, 0);
+      return '<section class="tier"><h2 class="tier-h">' + esc(g.name) + '<span class="n">' + n + ' 个页面</span></h2>' +
+        cs.map((c) => '<section class="group" style="--cc:var(--c-' + c + ')"><h3 class="group-h"><span class="dot"></span>' + esc(D.cats[c]) +
+          '<span class="n">' + byCat[c].length + '</span></h3>' + block(byCat[c], ts, false) + '</section>').join('') + '</section>';
+    }).join('');
+  }
+
+  function recentStrip() {
+    const its = local.recent.map((k) => BYK[k]).filter((it) => it && !isHid(it)).slice(0, 8);
+    if (!its.length) return '';
+    return '<nav class="recent" aria-label="最近看过"><span class="lbl">最近看过</span>' +
+      its.map((it) => link(it.u, esc(it.t), '', it.k)).join('') + '</nav>';
+  }
+
+  function renderChips(pool) {
+    const counts = { all: pool.length, fav: pool.filter(isFav).length };
+    CAT_KEYS.forEach((k) => { counts[k] = pool.filter((it) => it.c === k).length; });
+    const btn = (k, label, lead) => '<button class="chip" type="button" data-cat="' + k + '" aria-pressed="' + (state.cat === k) + '"' +
+      (D.cats[k] ? ' style="--cc:var(--c-' + k + ')"' : '') + (counts[k] === 0 && state.cat !== k ? ' disabled' : '') + '>' +
+      lead + esc(label) + '<span class="n">' + counts[k] + '</span></button>';
+    $('cats').innerHTML = btn('all', '全部', '') + btn('fav', '收藏', ICON.star) +
+      CAT_KEYS.map((k) => btn(k, D.cats[k], '<span class="dot"></span>')).join('');
+  }
+
+  function renderSrc(pool) {
+    if ($('srcseg').hidden) return;
+    const n = (s) => pool.filter((it) => s === 'all' || (it.src || 'github') === s).length;
+    $('srcseg').innerHTML = [['all', '全部来源'], ['github', 'GitHub'], ['claude', 'claude.ai']].map(([s, label]) =>
+      '<button type="button" data-src="' + s + '" aria-pressed="' + (state.src === s) + '">' + label + '<span class="n">' + n(s) + '</span></button>').join('');
+  }
+
+  function renderMine() {
+    const its = D.items.filter(isHid);
+    $('mine').hidden = !its.length;
+    if (!its.length) return;
+    const wasOpen = $('mine').open;
+    $('mine').innerHTML = '<summary>你删掉的 ' + its.length + ' 个页面</summary><ul class="mine-list">' +
+      its.map((it) => '<li><span class="mono">' + it.bd.slice(0, 10) + '</span>' + link(it.u, esc(it.t), '', it.k) +
+        '<button type="button" data-act="restore" data-k="' + esc(it.k) + '">恢复</button></li>').join('') + '</ul>';
+    $('mine').open = wasOpen;
+  }
+
+  // issue 是公开的：改动先用索引密钥加密，正文里只有一段密文，Actions 用同一个密码解开
+  async function issueUrl(ops) {
+    const enc = await sealBox({ ops: ops.map(({ op, k, v }) => ({ op, k, v })) });
+    const body = '在页面索引上点的 ' + ops.length + ' 处收藏 / 删除 / 备注，已加密。提交后会自动写进索引（只处理仓库主人提交的 issue）。\n\n' +
+      '```json\n' + JSON.stringify({ enc }) + '\n```\n';
+    return 'https://github.com/' + D.owner + '/' + D.owner + '.github.io/issues/new?title=' +
+      encodeURIComponent('[索引标记] ' + ops.length + ' 处改动') + '&body=' + encodeURIComponent(body);
+  }
+
+  let syncOpened = false;
+  function renderPending() {
+    const ops = pendingOps();
+    $('pending').hidden = !ops.length;
+    document.body.classList.toggle('has-pending', !!ops.length);
+    if (!ops.length) { syncOpened = false; return; }
+    const msg = syncOpened
+      ? '已打开 GitHub。在那边点「Create」提交，约一分钟后刷新本页，这条提示会自己消失。'
+      : '有 <b>' + ops.length + '</b> 处收藏 / 删除 / 备注只记在这个浏览器里，换台电脑看不到。';
+    const go = KEY
+      ? '<a class="go" id="sync-go" href="#" target="_blank" rel="noopener" data-act="sync" aria-disabled="true">' + (syncOpened ? '再打开一次' : '同步到索引') + '</a>'
+      : '<input id="sync-pw" type="password" placeholder="索引密码" aria-label="索引密码"><button class="go" type="button" data-act="sync-unlock">输入密码后同步</button>';
+    $('pending').innerHTML = '<div class="wrap"><span class="msg">' + msg + '</span>' + go +
+      '<button class="ghost" type="button" data-act="discard">撤销这些改动</button></div>';
+    if (KEY) issueUrl(ops).then((u) => { const a = $('sync-go'); if (a) { a.href = u; a.removeAttribute('aria-disabled'); } });
+  }
+
+  let toastTimer;
+  function toast(msg, undo) {
+    const el = $('toast');
+    el.innerHTML = '<span>' + esc(msg) + '</span>' + (undo ? '<button type="button" id="undo">撤销</button>' : '');
+    el.hidden = false;
+    if (undo) $('undo').addEventListener('click', () => { undo(); el.hidden = true; });
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.hidden = true; }, 5000);
+  }
+
+  function render() {
+    const ts = terms();
+    const byDate = (a, b) => (state.sort === 'new' ? b.d.localeCompare(a.d) : a.d.localeCompare(b.d));
+    const visible = D.items.filter((it) => !isHid(it));
+    renderLede(visible);
+    renderSrc(visible);
+    const pool = state.src === 'all' ? visible : visible.filter((it) => (it.src || 'github') === state.src);
+    let scored = pool.map((it) => ({ it, sc: ts.length ? score(it, ts) : 0 })).filter((x) => x.sc >= 0);
+    renderChips(scored.map((x) => x.it));
+    if (state.cat === 'fav') scored = scored.filter((x) => isFav(x.it));
+    else if (state.cat !== 'all') scored = scored.filter((x) => x.it.c === state.cat);
+    $('clear').hidden = !state.q;
+    $('kbd').hidden = !!state.q;
+    ['card', 'list'].forEach((v) => $('v-' + v).setAttribute('aria-pressed', String(state.view === v)));
+
+    let html = '';
+    if (!scored.length) {
+      html = state.cat === 'fav' && !ts.length
+        ? '<div class="empty">还没有收藏。点卡片右下角的星标，那一页就会置顶在最上面。</div>'
+        : '<div class="empty">没有找到包含 <b>' + esc(state.q) + '</b> 的页面' + (state.cat !== 'all' ? '（当前只看「' + esc(state.cat === 'fav' ? '收藏' : D.cats[state.cat]) + '」）' : '') +
+          '。<br>换个短一点的词试试，或者切回「全部」。</div>';
+      $('status').textContent = '';
+    } else {
+      if (ts.length) {
+        scored.sort((a, b) => b.sc - a.sc || byDate(a.it, b.it));
+        $('status').textContent = '找到 ' + scored.length + ' 个页面，按分类列出，每类里标题命中的排在前面。';
+      } else {
+        scored.sort((a, b) => byDate(a.it, b.it));
+        $('status').textContent = '';
+      }
+      const items = scored.map((x) => x.it);
+      if (!ts.length && state.cat === 'all') {
+        const favs = items.filter(isFav);
+        html = recentStrip() +
+          (favs.length ? '<section class="tier fav-tier"><h2 class="tier-h">收藏<span class="n">' + favs.length + ' 个页面</span></h2>' + block(favs, ts, true) + '</section>' : '') +
+          sections(items.filter((it) => !isFav(it)), ts);
+      } else {
+        html = sections(items, ts);
+      }
+    }
+    $('list').innerHTML = html;
+    renderMine();
+    renderPending();
+  }
+
+  function openNote(it) {
+    const host = document.querySelector('#list [data-k="' + CSS.escape(it.k) + '"]');
+    if (!host || host.querySelector('.note-edit')) return;
+    const anchor = host.querySelector('.note-view') || host.querySelector('.desc') || host.querySelector('h4, .ttl');
+    const box = document.createElement('div');
+    box.className = 'note-edit';
+    box.innerHTML = '<textarea maxlength="500" aria-label="备注" placeholder="写给自己看的备注，比如这页是给谁看的、哪里还要改"></textarea>' +
+      '<div class="ne-acts"><button class="primary" type="button" data-act="note-save" data-k="' + esc(it.k) + '">保存</button>' +
+      '<button type="button" data-act="note-cancel">取消</button><span>同步后会写进公开的 GitHub 仓库</span></div>';
+    anchor.after(box);
+    const ta = box.querySelector('textarea');
+    ta.value = noteOf(it);
+    ta.focus();
+    ta.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) box.querySelector('[data-act="note-save"]').click();
+      if (e.key === 'Escape') box.remove();
+    });
+  }
+
+  function pickRandom() {
+    const nodes = Array.from(document.querySelectorAll('#list [data-k]')).filter((n) => n.matches('.card, .row'));
+    if (!nodes.length) { toast('当前列表是空的'); return; }
+    const n = nodes[Math.floor(Math.random() * nodes.length)];
+    n.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    n.classList.remove('flash');
+    void n.offsetWidth;
+    n.classList.add('flash');
+    const a = n.querySelector('h4 a, .ttl a');
+    if (a) a.focus({ preventScroll: true });
+  }
+
+  function onAct(el) {
+    const act = el.dataset.act, it = el.dataset.k ? BYK[el.dataset.k] : null;
+    if (act === 'fav' && it) {
+      const v = !isFav(it);
+      setMark('fav', it, v);
+      render();
+      toast(v ? '已收藏「' + it.t + '」，置顶在最上面' : '已取消收藏「' + it.t + '」');
+    } else if (act === 'hide' && it) {
+      setMark('hide', it, true);
+      render();
+      toast('已从索引删掉「' + it.t + '」', () => { setMark('hide', it, false); render(); });
+    } else if (act === 'restore' && it) {
+      setMark('hide', it, false);
+      render();
+      toast('已恢复「' + it.t + '」');
+    } else if (act === 'note' && it) {
+      openNote(it);
+    } else if (act === 'note-save' && it) {
+      const ta = el.closest('.note-edit').querySelector('textarea');
+      setMark('note', it, ta.value.trim().replace(/`/g, "'").slice(0, 500));
+      render();
+      toast(noteOf(it) ? '备注已保存' : '备注已删掉');
+    } else if (act === 'note-cancel') {
+      el.closest('.note-edit').remove();
+    } else if (act === 'copy' && it) {
+      const done = () => toast('已复制链接');
+      try {
+        navigator.clipboard.writeText(it.u).then(done, () => toast('这里不让写剪贴板，链接是：' + it.u));
+      } catch (e) { toast('这里不让写剪贴板，链接是：' + it.u); }
+    } else if (act === 'random') {
+      pickRandom();
+    } else if (act === 'sync') {
+      syncOpened = true;
+      setTimeout(renderPending, 0);
+    } else if (act === 'sync-unlock') {
+      // 完整版（claude.ai 上那份）里没有密钥：输一次密码，用随数据带来的校验块确认密码对了
+      const pw = $('sync-pw') ? $('sync-pw').value : '';
+      if (!pw || !D.crypto) { toast('先输入索引密码'); return; }
+      deriveKey(pw, D.crypto.salt, D.crypto.iter).then(async (k) => {
+        await openBox(D.crypto.check, k);
+        KEY = k;
+        renderPending();
+      }).catch(() => toast('密码不对'));
+    } else if (act === 'relock') {
+      store.set(KEYSTORE, '');
+      location.reload();
+    } else if (act === 'discard') {
+      local = Object.assign(blank(), { seen: local.seen, recent: local.recent });
+      saveLocal();
+      render();
+      toast('已撤销，恢复成仓库里的样子');
+    }
+  }
+
+  function wire() {
+    let timer;
+    $('q').addEventListener('input', (e) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { state.q = e.target.value.trim(); render(); }, 80);
+    });
+    $('q').addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.target.value = ''; state.q = ''; render(); } });
+    $('clear').addEventListener('click', () => { $('q').value = ''; state.q = ''; render(); $('q').focus(); });
+    $('cats').addEventListener('click', (e) => {
+      const b = e.target.closest('.chip');
+      if (!b || b.disabled) return;
+      state.cat = b.dataset.cat === state.cat && state.cat !== 'all' ? 'all' : b.dataset.cat;
+      store.set('idx.cat', state.cat);
+      render();
+    });
+    $('srcseg').addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      state.src = b.dataset.src;
+      render();
+    });
+    $('sort').value = state.sort;
+    $('sort').addEventListener('change', (e) => { state.sort = e.target.value; store.set('idx.sort', state.sort); render(); });
+    $('viewseg').addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      state.view = b.dataset.view;
+      store.set('idx.view', state.view);
+      render();
+    });
+    document.addEventListener('click', (e) => {
+      const vb = e.target.closest('.vers-btn');
+      if (vb) {
+        const ul = vb.closest('.card, .row').querySelector('.vers');
+        const open = vb.getAttribute('aria-expanded') === 'true';
+        vb.setAttribute('aria-expanded', String(!open));
+        ul.hidden = open;
+        return;
+      }
+      const act = e.target.closest('[data-act]');
+      if (act && act.getAttribute('aria-disabled') === 'true') { e.preventDefault(); return; }
+      if (act) { onAct(act); return; }
+      const o = e.target.closest('a[data-open]');
+      if (o) markSeen(BYK[o.dataset.k]);
+    });
+    document.addEventListener('keydown', (e) => {
+      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName);
+      if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey) { e.preventDefault(); $('q').focus(); }
+    });
+  }
+
+  function showLock(box) {
+    document.body.classList.add('locked');
+    $('lock').hidden = false;
+    $('pw').focus();
+    $('lock-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('lock-err').textContent = '';
+      $('unlock').disabled = true;
+      $('unlock').textContent = '正在打开…';
+      try {
+        const key = await deriveKey($('pw').value, box.salt, box.iter);
+        const data = await openBox(box, key);
+        KEY = key;
+        if ($('remember').checked) await rememberKey(box.salt, key);
+        $('lock').hidden = true;
+        document.body.classList.remove('locked');
+        $('pw').value = '';
+        $('relock').hidden = !$('remember').checked;
+        prepare(data);
+        render();
+      } catch (err) {
+        $('lock-err').textContent = '密码不对，再试一次。';
+        $('pw').select();
+      } finally {
+        $('unlock').disabled = false;
+        $('unlock').textContent = '打开';
+      }
+    });
+  }
+
+  async function boot() {
+    wire();
+    try {
+      if (window.__INDEX__) { prepare(window.__INDEX__); render(); return; }
+      const box = await fetch('data/index.enc.json', { cache: 'no-cache' }).then((r) => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+      const key = await rememberedKey(box.salt);
+      if (key) {
+        try {
+          const data = await openBox(box, key);
+          KEY = key;
+          $('relock').hidden = false;
+          prepare(data);
+          render();
+          return;
+        } catch (e) { store.set(KEYSTORE, ''); }
+      }
+      showLock(box);
+    } catch (e) {
+      $('lede').textContent = '索引没有读出来（' + e.message + '）。刷新一下；如果一直这样，去仓库的 Actions 页看最近一次同步是否失败。';
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>

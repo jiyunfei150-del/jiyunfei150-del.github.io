@@ -1,0 +1,9 @@
+__pycache__/
+_site/
+thumbs/
+catalog.json
+data/state.json
+data/index.json
+data/prefs.json
+data/shots_todo.json
+data/shot_failed.json

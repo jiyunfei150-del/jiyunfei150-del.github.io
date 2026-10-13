@@ -1,0 +1,76 @@
+name: 写入页面标记
+
+# 页面上的「同步到索引」会打开一个预填好的 issue，正文里的改动已在浏览器里加密；
+# 仓库主人提交后，这里解密、写进加密的 data/prefs.enc 并重新部署
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: sync-index
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: github.event.issue.user.login == github.repository_owner && startsWith(github.event.issue.title, '[索引标记]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      INDEX_PASSWORD: ${{ secrets.INDEX_PASSWORD }}
+      INDEX_PASSWORD_OLD: ${{ secrets.INDEX_PASSWORD_OLD }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - run: pip install --quiet pillow cryptography
+
+      - name: 应用标记
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python scripts/prefs.py
+
+      - name: 重建索引
+        run: python scripts/sync.py --offline
+
+      - name: 提交
+        run: |
+          git add -A data
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -q -m "prefs: 写入页面标记 #${{ github.event.issue.number }}"
+            git pull -q --rebase
+            git push -q
+          fi
+
+      - name: 准备部署目录
+        run: |
+          mkdir -p _site/data
+          cp index.html _site/
+          cp data/index.enc.json _site/data/
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v5
+
+      - name: 关闭 issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue close ${{ github.event.issue.number }} -R ${{ github.repository }} -c "已写入索引，刷新页面就能看到。"

@@ -1,0 +1,89 @@
+name: 同步页面索引
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'   # 每 30 分钟扫描一次
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['index.html', 'scripts/**', '.github/workflows/**']
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sync-index
+  cancel-in-progress: false
+
+# 仓库和这里的日志都是公开的：索引数据只以密文提交，部署目录里只放页面壳和加密后的索引
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      INDEX_PASSWORD: ${{ secrets.INDEX_PASSWORD }}
+      INDEX_PASSWORD_OLD: ${{ secrets.INDEX_PASSWORD_OLD }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - run: pip install --quiet pillow cryptography
+
+      - name: 扫描仓库并生成索引
+        id: scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/sync.py
+
+      - name: 给新页面截图
+        if: steps.scan.outputs.need_shots == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-color-emoji > /dev/null
+          pip install --quiet playwright
+          python -m playwright install --with-deps chromium > /dev/null
+          python scripts/shoot.py
+          python scripts/sync.py --offline
+
+      - name: 提交变化
+        id: commit
+        run: |
+          # 定时任务的仓库 60 天无提交会被 GitHub 停用，超过 30 天没变化时写一次心跳
+          if [ $(( $(date +%s) - $(git log -1 --format=%ct) )) -gt 2592000 ]; then date -u +%FT%TZ > data/heartbeat.txt; fi
+          git add -A data
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -q -m "sync: 更新页面索引"
+            git push -q
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 准备部署目录
+        if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        run: |
+          mkdir -p _site/data
+          cp index.html _site/
+          cp data/index.enc.json _site/data/
+
+      - if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: actions/configure-pages@v6
+
+      - if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - id: deploy
+        if: steps.commit.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: actions/deploy-pages@v5
